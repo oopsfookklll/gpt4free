@@ -119,7 +119,7 @@ def _format(msg: dict) -> str:
     return json.dumps(msg, ensure_ascii=False) + Defaults.delimiter
 
 
-async def create_conversation(question: str, text_attachment: str):
+async def create_conversation():
     for _ in range(5):
         create = requests.get('https://www.bing.com/turing/conversation/create',
                               headers={
@@ -157,6 +157,8 @@ async def create_conversation(question: str, text_attachment: str):
 
 
 async def stream_generate(prompt: str, mode: optionsSets.optionSet = optionsSets.jailbreak, context: bool or str = False):
+    resp_txt = ''
+    cache_text = ''
     # existing code...
     return {
         'response_text': resp_txt,
@@ -337,6 +339,8 @@ def convert(messages):
 
 
 def _create_completion(model: str, messages: list, stream: bool, **kwargs):
+    if model not in ['gpt-4']:
+        raise ValueError("Model not supported")
     if len(messages) < 2:
         prompt = messages[0]['content']
         context = False
