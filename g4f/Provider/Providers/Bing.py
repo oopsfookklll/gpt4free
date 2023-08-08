@@ -119,7 +119,7 @@ def _format(msg: dict) -> str:
     return json.dumps(msg, ensure_ascii=False) + Defaults.delimiter
 
 
-async def create_conversation():
+async def create_conversation(question: str, text_attachment: str):
     for _ in range(5):
         create = requests.get('https://www.bing.com/turing/conversation/create',
                               headers={
@@ -157,6 +157,11 @@ async def create_conversation():
 
 
 async def stream_generate(prompt: str, mode: optionsSets.optionSet = optionsSets.jailbreak, context: bool or str = False):
+    # existing code...
+    return {
+        'response_text': resp_txt,
+        'cache_text': cache_text
+    }
     timeout = aiohttp.ClientTimeout(total=900)
     session = aiohttp.ClientSession(timeout=timeout)
 
