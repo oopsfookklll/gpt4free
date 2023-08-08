@@ -8,14 +8,19 @@ def main():
     text_attachment = st.file_uploader("Upload a text attachment:")
 
     if st.button("Get Answer"):
-        bing_answer = Bing._create_completion('gpt-4', [{'role': 'user', 'content': question}], True)
-        phind_answer = Phind._create_completion('gpt-4', [{'role': 'user', 'content': question}], True)
-
-        st.write("Answer from Bing:")
-        st.write(next(bing_answer))
-
-        st.write("Answer from Phind:")
-        st.write(next(phind_answer))
+        if 'gpt-4' in Bing.model:
+            bing_answer = Bing._create_completion('gpt-4', [{'role': 'user', 'content': question}], True)
+            st.write("Answer from Bing:")
+            st.write(next(bing_answer))
+        else:
+            st.write("Bing does not support the 'gpt-4' model.")
+    
+        if 'gpt-4' in Phind.model:
+            phind_answer = Phind._create_completion('gpt-4', [{'role': 'user', 'content': question}], True)
+            st.write("Answer from Phind:")
+            st.write(next(phind_answer))
+        else:
+            st.write("Phind does not support the 'gpt-4' model.")
 
 if __name__ == "__main__":
     main()
