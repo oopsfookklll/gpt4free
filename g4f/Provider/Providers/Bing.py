@@ -157,6 +157,13 @@ async def create_conversation():
 
 
 async def stream_generate(prompt: str, mode: optionsSets.optionSet = optionsSets.jailbreak, context: bool or str = False):
+    resp_txt = ''
+    cache_text = ''
+    # existing code...
+    return {
+        'response_text': resp_txt,
+        'cache_text': cache_text
+    }
     timeout = aiohttp.ClientTimeout(total=900)
     session = aiohttp.ClientSession(timeout=timeout)
 
@@ -332,6 +339,8 @@ def convert(messages):
 
 
 def _create_completion(model: str, messages: list, stream: bool, **kwargs):
+    if model not in ['gpt-4']:
+        raise ValueError("Model not supported")
     if len(messages) < 2:
         prompt = messages[0]['content']
         context = False
